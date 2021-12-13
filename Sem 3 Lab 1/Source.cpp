@@ -620,7 +620,7 @@ int main() {
 	User Test;
 
 	//Test.Prime(2);
-	Test.RashAlgEv(28, 19);
+	Test.GEA(28, 19);
 	int x = 0;
 	//DH();
 
