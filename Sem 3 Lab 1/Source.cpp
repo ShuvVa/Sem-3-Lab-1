@@ -8,8 +8,14 @@
 //#include <windows.h>
 
 #include "User.h"
+#include "Diffie_Hellman.h"
+#include "Shamir.h"
 
 using namespace std;
+
+string VARIABLE_NAME = "NULL";	//Переменная для содержания последнего имени пользователя
+//
+#define SAVE_VARIABLE_NAME(variable) VARIABLE_NAME = string(#variable);	//Для получения имени пользователя
 
 
 //
@@ -109,8 +115,8 @@ using namespace std;
 //	return !(length <= 7);
 //}
 //
-//int gcd(int x, int y) {	//Нахождение НОД
-//	return y ? gcd(y, x % y) : x;
+//int GCD(int x, int y) {	//Нахождение НОД
+//	return y ? GCD(y, x % y) : x;
 //}
 //
 //int MPN(int p, int a = 1) {	//Функция по поиску такого взаимно простого числа для a, что (a * b) % (p - 1) = 1
@@ -224,13 +230,13 @@ using namespace std;
 //			do {
 //				x = PrimeRandom(20, 50);
 //				y = MPN(p, x);
-//			} while ((RoD_find(x * y, 1, p - 1) != 1) || (gcd(x, p - 1) != 1) || (x == y));
+//			} while ((RoD_find(x * y, 1, p - 1) != 1) || (GCD(x, p - 1) != 1) || (x == y));
 //		}
 //
 //		void Get_x_Generate_y(int a) {
 //			x = a;
 //			y = MPN(p, x);
-//			while ((RoD_find(x * y, 1, p - 1) != 1) || (gcd(x, p - 1) != 1) || (x == y)) {
+//			while ((RoD_find(x * y, 1, p - 1) != 1) || (GCD(x, p - 1) != 1) || (x == y)) {
 //				cout << "x and p-1 are not mutually prime numbers. Please enter x again: ";
 //				cin >> x;
 //				y = MPN(p, x);
@@ -373,7 +379,7 @@ using namespace std;
 //		void Generate_k() {
 //			do {
 //				k = Random(2, 100);
-//			} while (((gcd(k, (p - 1))) != 1)||(k>=(p-1)));
+//			} while (((GCD(k, (p - 1))) != 1)||(k>=(p-1)));
 //		}
 //
 //		int Give_y() {
@@ -510,12 +516,12 @@ using namespace std;
 //	//cout << "p = " << p << endl;
 //
 //	//cout << "a = " << a << endl;
-//	//cout << "НОД(a,p-1) = " << "НОД(" << a << "," << p - 1 << ") = " << gcd(a, p - 1) << endl;
+//	//cout << "НОД(a,p-1) = " << "НОД(" << a << "," << p - 1 << ") = " << GCD(a, p - 1) << endl;
 //	//cout << "d = " << d << endl;
 //	////cout << "n = " << n << ", d*a = 1+n(p-1) - " << ((d*a)==(1+round(n)*(p-1))) << endl << endl;
 //
 //	//cout << "b = " << b << endl;
-//	//cout << "НОД(b,p-1) = " << "НОД(" << b << "," << p - 1 << ") = " << gcd(b, p - 1) << endl;
+//	//cout << "НОД(b,p-1) = " << "НОД(" << b << "," << p - 1 << ") = " << GCD(b, p - 1) << endl;
 //	//cout << "c = " << c << endl;
 //	////cout << "l = " << l << ", c*b = 1+l(p-1) - " << ((c * b) == (1 + round(l) * (p - 1))) << endl << endl;
 //
@@ -611,17 +617,63 @@ using namespace std;
 //
 //}
 
+void DH() {
+	User Server;
+	int g, p;
+	do {
+		p = Server.PrimeRandom(2, 1000);
+		g = Server.Random(2, 999);
+		if (g < p - 1) break;
+	} while (true);
 
+	Diffie_Hellman Alice(g, p), Bob(g, p);
+
+	SAVE_VARIABLE_NAME(Alice);
+	Alice.SetUser_Name(VARIABLE_NAME);
+	SAVE_VARIABLE_NAME(Bob);
+	Bob.SetUser_Name(VARIABLE_NAME);
+
+	Diffie_Hellman DataExchage(Alice, Bob);
+	
+	Alice.PrintData();
+	Bob.PrintData();
+}
+
+void SH() {
+	User Generator;
+	unsigned long long int p = Generator.PrimeRandom(100000, 1000000);
+
+	Shamir Alice(p, true), Bob(p);
+	//Shamir Alice(true, true), Bob(false, true);
+
+	SAVE_VARIABLE_NAME(Alice);
+	Alice.SetUser_Name(VARIABLE_NAME);
+	SAVE_VARIABLE_NAME(Bob);
+	Bob.SetUser_Name(VARIABLE_NAME);
+
+	Alice.PrintData();
+
+	Shamir DataExchange(Alice, Bob);
+
+	Bob.PrintData();
+	
+}
 
 int main() {
 	setlocale(LC_ALL, "Rus");
-	//SetConsoleCP(1251);
+	
 	srand(time(0));
 	User Test;
-
+	//DH();
+	SH();
+	//cout << "3^15 mod 7 = " << Test.Mod_Exp(3, 15, 7) << endl;
 	//Test.Prime(2);
-	Test.GEA(28, 19);
-	int x = 0;
+	//Test.Mod_Inverse(3, 11);
+	//Test.Mod_Inverse(11, 7);
+	//Test.GEA(11, 7);
+	//Test.GEA(18, 9);
+	//Test.GEA(2, 7);
+	//int x = 0;
 	//DH();
 
 	//SH();
