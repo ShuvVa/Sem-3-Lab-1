@@ -1,9 +1,10 @@
 #pragma once
 #include "User.h"
+
 class Shamir : public User
 {
 private:
-    int p;
+    long long int p;
     map <unsigned long long int, unsigned long long int> key;
     Vector_1D_int message;
     bool sender;
@@ -13,9 +14,10 @@ public:
 
     Shamir(unsigned long long int _p, bool _sender = false);
 
-    Shamir(bool _sender = false, bool test = false);
+    //Shamir(bool _sender = false, bool test = false);
 
     Shamir(Shamir& first_user, Shamir& second_user);
+
 
     bool check_for_equal_keys(unsigned long long int _key);
 
@@ -23,7 +25,7 @@ public:
 
     void Generate_key();
 
-    void IncertMessage();
+    void InsertMessage();
 
     Vector_1D_int GetMessage();
 

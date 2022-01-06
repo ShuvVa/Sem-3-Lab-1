@@ -11,25 +11,41 @@
 using namespace std;
 //#define _GEA_tuple
 
-
 typedef tuple <int, int, int> TP_int;
 
-typedef vector<int> Vector_1D_int;
+typedef vector <int> Vector_1D_int;
 
-typedef vector < Vector_1D_int > Vector_2D_int;
+typedef vector <long long> Vector_1D_long_long;
 
-typedef vector<long long> Vector_1D_long_long;
+typedef vector <long long int> Vector_1D_long_long_int;
 
-typedef vector<Vector_1D_long_long> Vector_2D_long_long;
+typedef vector <pair<long long int, long long int>> Vector_1D_pair_long_long_int;
+
+typedef vector <Vector_1D_int> Vector_2D_int;
+
+typedef vector <Vector_1D_long_long> Vector_2D_long_long;
+
+typedef vector <Vector_1D_long_long_int> Vector_2D_long_long_int;
 
 ostream& operator<<(ostream& ostr, const Vector_1D_int& Vec_1d);
 
+ostream& operator<<(ostream& ostr, const Vector_1D_long_long& Vec_1d);
+
+//ostream& operator<<(ostream& ostr, const Vector_1D_long_long_int& Vec_1d);
+
 ostream& operator<<(ostream& ostr, const Vector_2D_int& Vec_2d);
 
-ostream operator<<(ostream& ostr, map<int, int>& map_int);
+ostream& operator<<(ostream& ostr, const Vector_2D_long_long& Vec_2d);
+
+//ostream& operator<<(ostream& ostr, const Vector_2D_long_long_int& Vec_2d);
+
+ostream& operator<<(ostream& ostr, const Vector_1D_pair_long_long_int & Vec_pair);
+
+//ostream operator<<(ostream& ostr, map<int, int>& map_int);
 
 //Класс, содержащий в себе основные методы, используемые при работе алгоритмов шифрования
-class User {
+class User 
+{
 protected: 
 	string User_Name;
 	
@@ -45,6 +61,9 @@ public:
 
 	//	Псевдогенератор простых чисел
 	int PrimeRandom(int begining, int ending);
+
+	//	Генератор g и p
+	void Generate_g_p(int& g, int& p);
 
 	//	Наибольший общий делитель/The greatest common divisor (GCD)
 	long long GCD(long long firstNumber, long long secondNumber);

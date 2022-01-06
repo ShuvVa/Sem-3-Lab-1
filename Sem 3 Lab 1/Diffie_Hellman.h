@@ -1,9 +1,11 @@
 #pragma once
 #include "User.h"
+
 class Diffie_Hellman : public User
 {
 private:
     int g, p, X, Y, Z;
+
 public:
   
     Diffie_Hellman();
@@ -17,6 +19,8 @@ public:
     void Setp(int);
 
     void SetX(int);
+
+    void Generate_X();
 
     int Getg();
 
