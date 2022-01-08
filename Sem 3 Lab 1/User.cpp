@@ -20,16 +20,6 @@ ostream& operator<<(ostream& ostr, const Vector_1D_long_long& Vec_1d)
 	return ostr;
 }
 
-//ostream& operator<<(ostream& ostr, const Vector_1D_long_long_int& Vec_1d)
-//{
-//	ostr << "{ ";
-//	for (unsigned int i = 0; i < Vec_1d.size(); i++)
-//		ostr << Vec_1d[i] << " ";
-//	ostr << "}";
-//
-//	return ostr;
-//}
-
 ostream& operator<<(ostream& ostr, const Vector_2D_int& Vec_2d) 
 {
 	for (unsigned int i = 0; i < Vec_2d.size(); i++) 
@@ -64,23 +54,6 @@ ostream& operator<<(ostream& ostr, const Vector_2D_long_long& Vec_2d)
 	return ostr;
 }
 
-//ostream& operator<<(ostream& ostr, const Vector_2D_long_long_int& Vec_2d)
-//{
-//	for (unsigned int i = 0; i < Vec_2d.size(); i++)
-//	{
-//		ostr << "{ ";
-//		for (unsigned int j = 0; j < Vec_2d[i].size(); j++)
-//			ostr << Vec_2d[i][j] << " ";
-//		ostr << "}";
-//		if (!(i == Vec_2d.size() - 1)) ostr << ",";
-//
-//		ostr << "\n";
-//
-//	}
-//
-//	return ostr;
-//}
-
 ostream& operator<<(ostream& ostr, const Vector_1D_pair_long_long_int& Vec_pair) {
 
 	ostr << "{ ";
@@ -93,77 +66,130 @@ ostream& operator<<(ostream& ostr, const Vector_1D_pair_long_long_int& Vec_pair)
 	return ostr;
 }
 
-//ostream operator<<(ostream& ostr, map<int, int>& map_int) 
-//{
-//	Vector_1D_int k, v;
-//	k.reserve(map_int.size());
-//	v.reserve(map_int.size());
-//
-//	for (map<int, int>::iterator i = map_int.begin(); i != map_int.end(); ++i)
-//	{
-//		k.push_back(i->first);
-//		v.push_back(i->second);
-//	}
-//
-//	ostr << "{ ";
-//	for (map<int, int>::iterator i = map_int.begin(); i != map_int.end(); ++i) {
-//		ostr << to_string(i->first) << ": " << to_string(i->second) << " ";
-//	}
-//	for (unsigned int i = 0; i < map_int.size(); i++)
-//		ostr << k[i] << ": " << v[i] << " ";
-//
-//
-//	ostr << "}";
-//
-//	return ostr;
-//}
-
 void User::SetUser_Name(string _str) 
 {
 	User_Name = _str;
 }
 
+void User::SetSender(bool _sender) {
+	sender = _sender;
+}
+
+int User::Get_Message_Size()
+{
+	return message.size();
+}
+
+Vector_1D_long_long_int User::Get_Message()
+{
+	return message;
+}
+
+void User::InsertMessage()
+{
+	char choice;
+	bool stop = true;
+	do
+	{
+		stop = true;
+		cout << "Выберите тип вводимого сообщения:\n1. Число.\n2. Сообщение.\n\n: ";
+		cin >> choice;
+		cout << endl;
+
+		switch (choice) {
+		case '1':
+		{
+			cin.ignore(32767, '\n');
+			string _message;
+
+			do
+			{
+				stop = true;
+				cout << "Ввод числового сообщения:\n";
+				cout << "Введите сообщение :\n\n: ";
+				getline(cin, _message);
+				cout << endl;
+
+				for (auto i : _message)
+					if ((i < '0') || (i > '9'))
+					{
+						cout << "Ошибка! были введены сторонние символы. Введите сообщение снова.\n\n";
+						stop = false;
+						break;
+					}
+				if (stop) break;
+			} while (true);
+
+			SetMessage(stoi(_message));
+			stop = true;
+			break;
+		}
+		case '2':
+		{
+			cin.ignore(32767, '\n');
+			string _message;
+
+			cout << "Ввод строкового сообщения:\n";
+			cout << "Введите сообщение :\n: ";
+			getline(cin, _message);
+			cout << endl;
+
+			SetMessage(_message);
+			stop = true;
+			break;
+		}
+		default:
+		{
+			cout << "Вы неверно ввели номер варианта. Повторите ввод еще раз." << endl << endl;
+			stop = false;
+		}
+		}
+		if (stop) break;
+	} while (true);
+
+}
+
+void User::SetMessage(unsigned long long int _message)
+{
+	message.clear();
+
+	message.push_back(_message);
+}
+
+void User::SetMessage(string _message)
+{
+	message.clear();
+
+	for (unsigned i = 0; i < _message.size(); i++)
+	{
+		message.push_back(_message[i]);
+	}
+}
+
+void User::SetMessage(Vector_1D_long_long_int _message)
+{
+	message.clear();
+	message = _message;
+}
+
+string User::Message_ToString() {
+	string _message;
+
+	for (unsigned int i = 0; i < message.size(); i++)
+		_message += message[i];
+
+	return _message;
+}
+
+
 bool User::Prime(const int number) 
 {
-	//	В случае, если number больше 4, то используем свойство простых чисел, больше или равных 5 - при возведении во вторую степень и взятии отстатка от деления на 24, остаток всегда будет 1. Если number меньше или равно 4
-	//if (number > 4) {
-	//	return ((number * number) % 24 == 1);
-	//}
-	//else {
-	//	vector <int> Numbers;
-	//	//	Инициализация элементов вектора посредством помещения в него массива чисел от 2 до number включительно
-	//	for (int i = 2; i <= number; i++) {
-	//		Numbers.push_back(i);
-	//	}
-	//	//	Проверка на то, является ли число простым - если нет, оно заменяется нулем
-	//	for (int i = 0; i < int(Numbers.size()); i++) {
-	//		int j = 2;
-	//		while (j <= Numbers[i]) {
-	//			if ((Numbers[i] % j == 0) && (Numbers[i] != j)) {
-	//				Numbers[i] = 0;
-	//			}
-	//			j++;
-	//		}
-	//	}
-	//	//	Уборка нулей из массива
-	//	int i = 0;
-	//	while (i<int(Numbers.size())) {
-	//		if (Numbers[i] == 0) {
-	//			Numbers.erase(Numbers.begin() + i);
-	//			i = 0;
-	//			continue;
-	//		}
-	//		i++;
-	//	}
-	//	//	Если последний элемент массива равно number, возращается значение TRUE, в ином случае - FALSE
-	//	return (number == Numbers[Numbers.size() - 1]);
-	//}
 	auto sqrt_number = sqrt(number) + 1;
+	
 	for (unsigned int i = 2; i < sqrt_number; i++) 
 	{
 		if (number % i == 0) return false;
 	}
-
 
 	return true;
 }
@@ -190,11 +216,11 @@ void User::Generate_g_p(int& g, int& p)
 	do 
 	{
 		p = PrimeRandom(1000000, 10000000);
-		//auto q = PrimeRandom(3, 1000);
-		//p = 2 * q + 1;
+		
 		auto q = (p - 1) / 2;
+		
 		g = Random(2, p-1);
-		//g = Mod_Inverse()
+		
 		if ((g < p - 1) && (Mod_Exp(g, q, p) != 1)&&(GCD(g,p)==1)) break;
 	} while (true);
 }
@@ -206,24 +232,18 @@ long long User::GCD(long long firstNumber, long long secondNumber)
 
 long long User::Mod_Exp(long long base, long long power, long long divisor) 
 {
-	//static int level;
-	//cout << "Level: " << level << ": base = " << base << ", power = " << power << ", divisor = " << divisor << endl;
-	//level++;
-
 	return (!power) ? (1 % divisor) : ((power % 2 == 1) ? ((Mod_Exp(base, power - 1, divisor) * base) % divisor) : Mod_Exp((base * base) % divisor, power / 2, divisor));
 }
 
 Vector_2D_int User::GEA(int firstNumber, int secondNumber) 
 {
-	//firstNumber*x+secondNumber*y=GCD(firstNumber,secondNumber)
+	//	firstNumber * x + secondNumber * y = GCD(firstNumber,secondNumber)
 	
 	Vector_2D_int Matrix = 
 	{
 		{firstNumber,1,0},//U
 		{secondNumber,0,1}//V
 	};
-	
-	//cout << Matrix << endl;
 	
 	for (int i = 0, q = 0; Matrix[1][0]!=0;i++) 
 	{
@@ -232,14 +252,7 @@ Vector_2D_int User::GEA(int firstNumber, int secondNumber)
 		Matrix[0] = Matrix[1];
 		Matrix[1] = Temp;
 	}
-	//U(GCD(firstNumber,secondNumber),firstNumber,secondNumber)
-	// U(GCD(firstNumber,secondNumber),x,y)
-	//cout << Matrix[0] << endl;
-	//cout << Matrix[1];
-	//cout << Matrix;
-
-	//cout << GCD(firstNumber, secondNumber);
-
+	
 	return Matrix;
 }
 
@@ -247,6 +260,7 @@ long long User::Mod_Inverse(long long firstNumber, long long secondNumber)
 {
 	auto u = make_pair(secondNumber, 0);
 	auto v = make_pair(firstNumber, 1);
+
 	for (; v.first > 0;) 
 	{
 		auto q = u.first / v.first;
@@ -254,6 +268,7 @@ long long User::Mod_Inverse(long long firstNumber, long long secondNumber)
 		u = v;
 		v = t;
 	}
+
 	if (u.second < 0) u.second += secondNumber;
 	return u.second;
 }
@@ -261,10 +276,6 @@ long long User::Mod_Inverse(long long firstNumber, long long secondNumber)
 #ifdef _GEA_tuple
 TP_int User::GEA_tuple(int firstNumber, int secondNumber) 
 {
-
-
-
-	//"Переработанный" алгоритм с использованием for и tuple
 	TP_int X = { firstNumber,1,0 }, Y = { secondNumber,0,1 }, Temporary = { 0,0,0 };
 
 	for (int i = 0, q = 0; get<0>(Y) != 0; i++) 
@@ -274,27 +285,6 @@ TP_int User::GEA_tuple(int firstNumber, int secondNumber)
 		X = Y;
 		Y = Temporary;
 	}
-
-	//Первоначальный алгоритм с использованием tuple и while
-	/*int q = 0, i = 0;
-	while (get<0>(Y) != 0) {
-		cout << "Итерация №" << i << endl;
-		cout << "X: ( " << get<0>(X) << ", " << get<1>(X) << ", " << get<2>(X) << " )" << endl;
-		cout << "Y: ( " << get<0>(Y) << ", " << get<1>(Y) << ", " << get<2>(Y) << " )" << endl;
-		q = get<0>(X) / get<0>(Y);
-		cout << "q = x1 / y1 = " << get<0>(X) << " / " << get<0>(Y) << " = " << q << endl;
-		Temporary = { get<0>(X) % get<0>(Y),get<1>(X) - q * get<1>(Y),	get<2>(X) - q * get<2>(Y) };
-		cout << "Temporary: ( " << get<0>(X) << " % " << get<0>(Y) << " = " << get<0>(Temporary) << ", " << get<1>(X) << " - " << q << " * " << get<1>(Y) << " = " << get<1>(Temporary) << ", " << get<2>(X) << " - " << q << " * " << get<2>(Y) << " = " << get<2>(Temporary) << " )" << endl;
-		X = Y;
-		cout << "X = Y = (" << get<0>(X) << " " << get<1>(X) << " " << get<2>(X) << ")" << endl;
-		Y = Temporary;
-		cout << "Y = Temporary = (" << get<0>(Y) << " " << get<1>(Y) << " " << get<2>(Y) << ")" << endl << endl;
-		i++;
-	}*/
-	cout << "X: ( " << get<0>(X) << ", " << get<1>(X) << ", " << get<2>(X) << " )" << endl;
-	cout << "Y: ( " << get<0>(Y) << ", " << get<1>(Y) << ", " << get<2>(Y) << " )" << endl;
-	//cout << "Temporary: ( " << get<0>(Temporary) << ", " << get<1>(Temporary) << ", " << get<2>(Temporary) << " )" << endl;
-	cout << "d = " << get<0>(X) << ", u = " << get<1>(X) << ", v = " << get<2>(X) << endl;
 
 	return X;
 }

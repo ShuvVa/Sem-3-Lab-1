@@ -5,7 +5,6 @@ RSA::RSA()
 	sender = false;
 	p.push_back(NULL);
 	q.push_back(NULL);
-	//m.push_back(NULL);
 	fi.push_back(NULL);
 	c.push_back(NULL);
 	d.push_back(NULL);
@@ -25,10 +24,9 @@ RSA::RSA(RSA& first_user, RSA& second_user)
 {
 	second_user.Generate_p(first_user.Get_Message_Size());
 	first_user.Encrypt(second_user.Get_d(), second_user.Get_n());
-	second_user.SetMessage(first_user.GetMessage());
+	second_user.SetMessage(first_user.Get_Message());
 	second_user.Decrypt();
 }
-
 
 
 void RSA::Generate_p()
@@ -81,16 +79,6 @@ Vector_1D_long_long_int RSA::Get_d()
 	return d;
 }
 
-Vector_1D_long_long_int RSA::GetMessage()
-{
-	return message;
-}
-
-int RSA::Get_Message_Size()
-{
-	return message.size();
-}
-
 Vector_1D_long_long_int RSA::Get_n()
 {
 	return n;
@@ -117,55 +105,6 @@ void RSA::Calc_c()
 		c.push_back(Mod_Inverse(d[i], fi[i]));
 }
 
-void RSA::InsertMessage()
-{
-	int choice = 0;
-	cout << "Выберите тип вводимого сообщения:\n1. Число.\n2. Сообщение.\n: ";
-	cin >> choice;
-	switch (choice) {
-	case 1: {
-		int _message;
-		cout << "Введите сообщение :\n: ";
-		cin >> _message;
-		SetMessage(_message);
-		//message_size = 1;
-		break;
-	}
-	case 2: {
-		cin.ignore(32767, '\n');
-		string _message;
-		cout << "Введите сообщение :\n: ";
-		getline(cin, _message);
-		SetMessage(_message);
-		//message_size = message.size();
-		break;
-	}
-	}
-}
-
-void RSA::SetMessage(int _message)
-{
-	message.clear();
-
-	message.push_back(_message);
-}
-
-void RSA::SetMessage(string _message)
-{
-	message.clear();
-
-	for (unsigned i = 0; i < _message.size(); i++)
-	{
-		message.push_back(_message[i]);
-	}
-}
-
-void RSA::SetMessage(Vector_1D_long_long_int _message)
-{
-	message.clear();
-	message = _message;
-}
-
 void RSA::Encrypt(Vector_1D_long_long_int _d, Vector_1D_long_long_int _n)
 {
 	for (unsigned int i = 0; i < message.size(); i++)
@@ -180,10 +119,6 @@ void RSA::Decrypt()
 
 void RSA::PrintData()
 {
-	string _message;
-	for (unsigned int i = 0; i < message.size(); i++)
-		_message += message[i];
-
 	cout << "Name: " << User_Name << endl;
 	cout << "sender: " << sender << endl;
 	cout << "p: " << p << endl;
@@ -193,7 +128,7 @@ void RSA::PrintData()
 	cout << "c: " << c << endl;
 	cout << "d: " << d << endl;
 	cout << "message: " << message << endl;
-	cout << "converted message: " << _message << endl << endl;
+	cout << "converted message: " << Message_ToString() << endl << endl;
 }
 
 RSA::~RSA()

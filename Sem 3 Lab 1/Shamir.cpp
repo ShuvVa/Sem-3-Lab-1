@@ -16,67 +16,31 @@ Shamir::Shamir(unsigned long long int _p, bool _sender)
         Generate_key();
     }
 }
-//Образец для тестирования
-//Shamir::Shamir(bool _sender, bool test) {
-//    sender = _sender;
-//    p = 23;
-//    unsigned long long int c = 0, d = 0;
-//    if (sender) {
-//        c = 7;
-//        //int d = Mod_Inverse(c, p - 1);
-//        d = 19;
-//        message.push_back(10);
-//    }
-//    else {
-//        c = 5;
-//        //int d = Mod_Inverse(c, p - 1);
-//        d = 9;
-//    }
-//
-//    key.insert(make_pair(c, d));
-//}
 
 Shamir::Shamir(Shamir& first_user, Shamir& second_user) 
 {
+    sender = false;
+
     p = NULL;
     message.push_back(NULL);
-    sender = false;
     key.insert(make_pair(NULL, NULL));
 
-    //cout << "Step 1:" << endl;
-    //first_user.PrintData();
-    ////second_user.PrintData();
-    first_user.Encode(first_user.GetMessage());
+    first_user.Encode(first_user.Get_Message());
 
-    //cout << "Step 2:" << endl;
-    //first_user.PrintData();
-    ////second_user.PrintData();
-    second_user.Encode(first_user.GetMessage());
-    //
-    //cout << "Step 3:" << endl;
-    ////first_user.PrintData();
-    //second_user.PrintData();
-    first_user.Decode(second_user.GetMessage());
-    //
-    //cout << "Step 4:" << endl;
-    //first_user.PrintData();
-    ////second_user.PrintData();
-    second_user.Decode(first_user.GetMessage());
-    //
-    //cout << "Step 5:" << endl;
-    ////first_user.PrintData();
-    //second_user.PrintData();
-}
+    second_user.Encode(first_user.Get_Message());
+    
+    first_user.Decode(second_user.Get_Message());
+    
+    second_user.Decode(first_user.Get_Message());
+ }
+
+
 
 bool Shamir::check_for_equal_keys(unsigned long long int _key) 
 {
-    Vector_1D_int k;
-    k.reserve(key.size());
+    Vector_1D_long_long_int k;
 
-    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
-    {
-        k.push_back(i->first);
-    }
+    Get_map_key(k);
 
     for (unsigned int i = 0; i < k.size(); i++) 
     {
@@ -88,13 +52,9 @@ bool Shamir::check_for_equal_keys(unsigned long long int _key)
 
 bool Shamir::check_for_equal_values(unsigned long long int _value) 
 {
-    Vector_1D_int v;
-    v.reserve(key.size());
+    Vector_1D_long_long_int v;
 
-    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
-    {
-        v.push_back(i->second);
-    }
+    Get_map_value(v);
 
     for (unsigned int i = 0; i < v.size(); i++) 
     {
@@ -104,7 +64,30 @@ bool Shamir::check_for_equal_values(unsigned long long int _value)
     return false;
 }
 
-void Shamir::Generate_key() {
+void Shamir::Get_map_key(Vector_1D_long_long_int & _key)
+{
+    _key.clear();
+    _key.reserve(key.size());
+
+    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
+    {
+        _key.push_back(i->first);
+    }
+}
+
+void Shamir::Get_map_value(Vector_1D_long_long_int& _value) 
+{
+    _value.clear();
+    _value.reserve(key.size());
+
+    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
+    {
+        _value.push_back(i->second);
+    }
+}
+
+void Shamir::Generate_key() 
+{
     for (unsigned int i = 0; i < message.size(); i++)
         do 
         {
@@ -123,85 +106,30 @@ void Shamir::Generate_key() {
         } while (true);
 }
 
-void Shamir::InsertMessage() {
-    unsigned long long int choice, message_int;
-    string message_string;
-    cout << "Введите тип сообщения:\n1. Число.\n2. Строка.\n: ";
-    cin >> choice;
-    switch (choice) 
-    {
-        case 1: 
-        {
-            cout << "Введите сообщение: \n: ";
-            cin >> message_int;
-            SetMessage(message_int);
-            break;
-        }
-        case 2: 
-        {
-            cin.ignore(32767, '\n');
-            cout << "Введите сообщение: \n: ";
-            getline(cin, message_string);
-            SetMessage(message_string);
-            break;
-        }
-    }
-}
-
-Vector_1D_int Shamir::GetMessage() 
+void Shamir::Encode(Vector_1D_long_long_int _message) 
 {
-    return message;
-}
-
-void Shamir::SetSender(bool _sender) 
-{
-    sender = _sender;
-}
-
-void Shamir::SetMessage(string _message) 
-{
-    message.clear();
-    for (unsigned int i = 0; i < _message.size(); i++) 
-    {
-        message.push_back(_message[i]);
-    }
-}
-
-void Shamir::SetMessage(unsigned long long int _message) 
-{
-    message.clear();
-    message.push_back(_message);
-}
-
-void Shamir::Encode(Vector_1D_int _message) {
     message.clear();
     message = _message;
     if (!sender) Generate_key();
-    Vector_1D_int k;
-    k.reserve(key.size());
 
-    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
+    Vector_1D_long_long_int k;
+    
+    Get_map_key(k);
+
+    for (unsigned int i = 0; i < message.size(); i++) 
     {
-        k.push_back(i->first);
-    }
-
-    for (unsigned int i = 0; i < message.size(); i++) {
         message[i] = Mod_Exp(message[i], k[i], p);
     }
 }
 
-void Shamir::Decode(Vector_1D_int _message) 
+void Shamir::Decode(Vector_1D_long_long_int _message)
 {
     message.clear();
     message = _message;
 
-    Vector_1D_int v;
-    v.reserve(key.size());
+    Vector_1D_long_long_int v;
 
-    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
-    {
-        v.push_back(i->second);
-    }
+    Get_map_value(v);
 
     for (unsigned int i = 0; i < message.size(); i++) 
     {
@@ -209,24 +137,18 @@ void Shamir::Decode(Vector_1D_int _message)
     }
 }
 
-void Shamir::PrintData() {
-    Vector_1D_int k, v;
-    k.reserve(key.size());
-    v.reserve(key.size());
-    string _message;
-    for (unsigned int i = 0; i < message.size(); i++) _message += char(message[i]);
+void Shamir::PrintData() 
+{
+    Vector_1D_long_long_int k, v;
 
-    for (map<unsigned long long int, unsigned long long int>::iterator i = key.begin(); i != key.end(); ++i)
-    {
-        k.push_back(i->first);
-        v.push_back(i->second);
-    }
+    Get_map_key(k);
+    Get_map_value(v);
 
     cout << "Name: " << User_Name << endl;
     cout << "sender: " << sender << endl;
     cout << "p: " << p << endl;
     cout << "message array: " << message << endl;
-    cout << "message = " << _message << endl;
+    cout << "message = " << Message_ToString() << endl;
     cout << "key: { ";
     for (unsigned int i = 0; i < key.size(); i++)
         cout << k[i] << ": " << v[i] << " ";

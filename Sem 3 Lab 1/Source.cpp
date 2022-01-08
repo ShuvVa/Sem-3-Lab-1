@@ -1,11 +1,5 @@
-#include <iostream>
-//#include <math.h>
-//#include <cmath>
 #include <ctime>
 #include <locale>
-#include <vector>
-#include <string>
-//#include <windows.h>
 
 #include "User.h"
 #include "Diffie_Hellman.h"
@@ -18,7 +12,7 @@ using namespace std;
 string VARIABLE_NAME = "NULL";	//Переменная для содержания последнего имени пользователя
 //
 #define SAVE_VARIABLE_NAME(variable) VARIABLE_NAME = string(#variable);	//Для получения имени пользователя
-
+//	Вызов тестового экзмемпляра работы алгоритма Диффи-Хеллмана
 void DH() 
 {
 	User Server;
@@ -37,14 +31,13 @@ void DH()
 	Alice.PrintData();
 	Bob.PrintData();
 }
-
+//	Вызов тестового экзмемпляра работы шифра Шамира
 void SH() 
 {
 	User Server;
 	unsigned long long int p = Server.PrimeRandom(1000000, 10000000);
 
 	Shamir Alice(p, true), Bob(p);
-	//Shamir Alice(true, true), Bob(false, true);
 
 	SAVE_VARIABLE_NAME(Alice);
 	Alice.SetUser_Name(VARIABLE_NAME);
@@ -57,14 +50,13 @@ void SH()
 
 	Bob.PrintData();
 }
-
+//	Вызов тестового экзмемпляра работы шифра Эль-Гамаля
 void EL() 
 {
 	User Server;
 	int g, p;
 	Server.Generate_g_p(g, p);
 	
-	//ElGamal Alice(p,g,true, true), Bob(p,g,false, true);
 	ElGamal Alice(p,g,true), Bob(p,g);
 
 	SAVE_VARIABLE_NAME(Alice);
@@ -78,7 +70,7 @@ void EL()
 
 	Bob.PrintData();
 }
-
+//	Вызов тестового экзмемпляра работы шифра RSA
 void Rsa() 
 {
 	RSA Alice(true), Bob(0);
@@ -100,46 +92,80 @@ int main()
 	setlocale(LC_ALL, "Rus");
 	
 	srand(time(0));
-	//User Test;
-
-	//DH();
-	//SH();
-	//EL();
-	Rsa();
-
-	//cout << "3^15 mod 7 = " << Test.Mod_Exp(3, 15, 7) << endl;
-	//Test.Prime(2);
-	//Test.Mod_Inverse(3, 11);
-	//Test.Mod_Inverse(11, 7);
-	//Test.GEA(11, 7);
-	//Test.GEA(18, 9);
-	//Test.GEA(2, 7);
-	//int x = 0;
-	//DH();
-
-	//SH();
-
-	//El();
 	
-	//cout << "Hello Привет";
+	char choice;
+	cout << "Введите первую букву алгоритма для его запуска:\n D: Алгоритм Диффи-Хеллмана;\n S: Шифр Шамира;\n E: Шифр Эль-Гамаля;\n R: Шифр RSA.\n\n: ";
+	cin >> choice;
+	cout << endl;
+	switch (choice)
+	{
 
-	//cout << RoD_find(5, 4, 5) << endl;
-
-	//cout << RoD_Diversity(40,20,11) << endl;
-
-	//for (int i = 0; i < 100; i++) cout << "Time - " << time(0) << ": Generation result - " << PrimeRandom(2,100) << endl;
-
-	//Prime(51);
-
-	/*for (int i = 10; i <= 200; i += 10) {
-		cout << (i+1) << ": " << Prime(1 + i) << endl;
-	}*/
-	/*int y = 0;
-	if (y) cout << true << endl; else cout << false << endl;
-	y++;
-	if (y) cout << true << endl; else cout << false << endl;
-	y = -1;
-	if (y) cout << true << endl; else cout << false << endl;*/
-
-	//cout << RoD_find(3, 3, 9) << endl;
+		case '1':
+		{
+			DH();
+			break;
+		}
+		case '2':
+		{
+			SH();
+			break;
+		}
+		case '3':
+		{
+			EL();
+			break;
+		}
+		case '4':
+		{
+			Rsa();
+			break;
+		}
+		case 'E':
+		{
+			EL();
+			break;
+		}
+		case 'e':
+		{
+			EL();
+			break;
+		}
+		case 'D':
+		{
+			DH();
+			break;
+		}
+		case 'd':
+		{
+			DH();
+			break;
+		}
+		case 'R':
+		{
+			Rsa();
+			break;
+		}
+		case 'r':
+		{
+			Rsa();
+			break;
+		}
+		case 'S':
+		{
+			SH();
+			break;
+		}
+		case 's':
+		{
+			SH();
+			break;
+		}
+		default: 
+		{
+			cout << "Вы ввели неправильный символ. До свидания." << endl ;
+			break;
+		}
+		
+	}
+	
 }
