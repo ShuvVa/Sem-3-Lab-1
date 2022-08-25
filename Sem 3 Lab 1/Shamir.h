@@ -1,41 +1,39 @@
 #pragma once
 #include "User.h"
 
-class Shamir : public User
-{
-private:
-    long long int p;
-    map <unsigned long long int, unsigned long long int> key;
+class Shamir : public User {
+ private:
+  long long int p;
+  map<unsigned long long int, unsigned long long int> key;
 
-public:
-    //	Конструктор класса по умолчанию
-    Shamir();
-    //	Конструктор класса для инициализации пользователя
-    Shamir(unsigned long long int _p, bool _sender = false);
-    //	Конструктор класса для работы с отправителем и получателем
-    Shamir(Shamir& first_user, Shamir& second_user);
+ public:
+  //	РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+  Shamir();
+  //	РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР° РґР»СЏ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+  Shamir(unsigned long long int _p, bool _sender = false);
+  //	РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР° РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ РѕС‚РїСЂР°РІРёС‚РµР»РµРј Рё РїРѕР»СѓС‡Р°С‚РµР»РµРј
+  Shamir(Shamir& first_user, Shamir& second_user);
 
-    //  Метод для проверки наличия одинаковых ключей в словаре
-    bool check_for_equal_keys(unsigned long long int _key);
-    //  Метод для проверки наличия одинаковых значений в словаре
-    bool check_for_equal_values(unsigned long long int _value);
+  //  РњРµС‚РѕРґ РґР»СЏ РїСЂРѕРІРµСЂРєРё РЅР°Р»РёС‡РёСЏ РѕРґРёРЅР°РєРѕРІС‹С… РєР»СЋС‡РµР№ РІ СЃР»РѕРІР°СЂРµ
+  bool check_for_equal_keys(unsigned long long int _key);
+  //  РњРµС‚РѕРґ РґР»СЏ РїСЂРѕРІРµСЂРєРё РЅР°Р»РёС‡РёСЏ РѕРґРёРЅР°РєРѕРІС‹С… Р·РЅР°С‡РµРЅРёР№ РІ СЃР»РѕРІР°СЂРµ
+  bool check_for_equal_values(unsigned long long int _value);
 
-    //  Метод для получения ключей словаря
-    void Get_map_key(Vector_1D_long_long_int& _key);
-    //  Метод для получения значений словаря
-    void Get_map_value(Vector_1D_long_long_int& _value);
-    //	Метод для генерации с и d по принятому размеру сообщения
-    void Generate_key();
-    
-    //	Метод для шифрования принятого сообщения
-    void Encode(Vector_1D_long_long_int _message);
-    //	Метод для дешифрования принятого сообщения
-    void Decode(Vector_1D_long_long_int _message);
+  //  РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєР»СЋС‡РµР№ СЃР»РѕРІР°СЂСЏ
+  void Get_map_key(Vector_1D_long_long_int& _key);
+  //  РњРµС‚РѕРґ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ Р·РЅР°С‡РµРЅРёР№ СЃР»РѕРІР°СЂСЏ
+  void Get_map_value(Vector_1D_long_long_int& _value);
+  //	РњРµС‚РѕРґ РґР»СЏ РіРµРЅРµСЂР°С†РёРё СЃ Рё d РїРѕ РїСЂРёРЅСЏС‚РѕРјСѓ СЂР°Р·РјРµСЂСѓ СЃРѕРѕР±С‰РµРЅРёСЏ
+  void Generate_key();
 
-    //	Метод для вывода данных класса
-    void PrintData();
+  //	РњРµС‚РѕРґ РґР»СЏ С€РёС„СЂРѕРІР°РЅРёСЏ РїСЂРёРЅСЏС‚РѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+  void Encode(Vector_1D_long_long_int _message);
+  //	РњРµС‚РѕРґ РґР»СЏ РґРµС€РёС„СЂРѕРІР°РЅРёСЏ РїСЂРёРЅСЏС‚РѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+  void Decode(Vector_1D_long_long_int _message);
 
-    //	Деструктор класса
-    ~Shamir();
+  //	РњРµС‚РѕРґ РґР»СЏ РІС‹РІРѕРґР° РґР°РЅРЅС‹С… РєР»Р°СЃСЃР°
+  void PrintData();
+
+  //	Р”РµСЃС‚СЂСѓРєС‚РѕСЂ РєР»Р°СЃСЃР°
+  ~Shamir();
 };
-

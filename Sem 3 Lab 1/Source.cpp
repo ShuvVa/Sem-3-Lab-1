@@ -1,171 +1,150 @@
 #include <ctime>
-#include <locale>
 
-#include "User.h"
 #include "Diffie_Hellman.h"
-#include "Shamir.h"
 #include "ElGamal.h"
 #include "RSA.h"
+#include "Shamir.h"
+#include "User.h"
 
 using namespace std;
 
-string VARIABLE_NAME = "NULL";	//Переменная для содержания последнего имени пользователя
+string VARIABLE_NAME =
+    "NULL";  //РџРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ СЃРѕРґРµСЂР¶Р°РЅРёСЏ РїРѕСЃР»РµРґРЅРµРіРѕ РёРјРµРЅРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 //
-#define SAVE_VARIABLE_NAME(variable) VARIABLE_NAME = string(#variable);	//Для получения имени пользователя
-//	Вызов тестового экзмемпляра работы алгоритма Диффи-Хеллмана
-void DH() 
-{
-	User Server;
-	int g, p;
-	Server.Generate_g_p(g, p);
+#define SAVE_VARIABLE_NAME(variable) \
+  VARIABLE_NAME = string(#variable);  //Р”Р»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РёРјРµРЅРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+//	Р’С‹Р·РѕРІ С‚РµСЃС‚РѕРІРѕРіРѕ СЌРєР·РјРµРјРїР»СЏСЂР° СЂР°Р±РѕС‚С‹ Р°Р»РіРѕСЂРёС‚РјР° Р”РёС„С„Рё-РҐРµР»Р»РјР°РЅР°
+void DH() {
+  User Server;
+  int g, p;
+  Server.Generate_g_p(g, p);
 
-	Diffie_Hellman Alice(g, p), Bob(g, p);
+  Diffie_Hellman Alice(g, p), Bob(g, p);
 
-	SAVE_VARIABLE_NAME(Alice);
-	Alice.SetUser_Name(VARIABLE_NAME);
-	SAVE_VARIABLE_NAME(Bob);
-	Bob.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Alice);
+  Alice.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Bob);
+  Bob.SetUser_Name(VARIABLE_NAME);
 
-	Diffie_Hellman DataExchage(Alice, Bob);
-	
-	Alice.PrintData();
-	Bob.PrintData();
+  Diffie_Hellman DataExchage(Alice, Bob);
+
+  Alice.PrintData();
+  Bob.PrintData();
 }
-//	Вызов тестового экзмемпляра работы шифра Шамира
-void SH() 
-{
-	User Server;
-	unsigned long long int p = Server.PrimeRandom(1000000, 10000000);
+//	Р’С‹Р·РѕРІ С‚РµСЃС‚РѕРІРѕРіРѕ СЌРєР·РјРµРјРїР»СЏСЂР° СЂР°Р±РѕС‚С‹ С€РёС„СЂР° РЁР°РјРёСЂР°
+void SH() {
+  User Server;
+  unsigned long long int p = Server.PrimeRandom(1000000, 10000000);
 
-	Shamir Alice(p, true), Bob(p);
+  Shamir Alice(p, true), Bob(p);
 
-	SAVE_VARIABLE_NAME(Alice);
-	Alice.SetUser_Name(VARIABLE_NAME);
-	SAVE_VARIABLE_NAME(Bob);
-	Bob.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Alice);
+  Alice.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Bob);
+  Bob.SetUser_Name(VARIABLE_NAME);
 
-	Alice.PrintData();
+  Alice.PrintData();
 
-	Shamir DataExchange(Alice, Bob);
+  Shamir DataExchange(Alice, Bob);
 
-	Bob.PrintData();
+  Bob.PrintData();
 }
-//	Вызов тестового экзмемпляра работы шифра Эль-Гамаля
-void EL() 
-{
-	User Server;
-	int g, p;
-	Server.Generate_g_p(g, p);
-	
-	ElGamal Alice(p,g,true), Bob(p,g);
+//	Р’С‹Р·РѕРІ С‚РµСЃС‚РѕРІРѕРіРѕ СЌРєР·РјРµРјРїР»СЏСЂР° СЂР°Р±РѕС‚С‹ С€РёС„СЂР° Р­Р»СЊ-Р“Р°РјР°Р»СЏ
+void EL() {
+  User Server;
+  int g, p;
+  Server.Generate_g_p(g, p);
 
-	SAVE_VARIABLE_NAME(Alice);
-	Alice.SetUser_Name(VARIABLE_NAME);
-	SAVE_VARIABLE_NAME(Bob);
-	Bob.SetUser_Name(VARIABLE_NAME);
+  ElGamal Alice(p, g, true), Bob(p, g);
 
-	Alice.PrintData();
+  SAVE_VARIABLE_NAME(Alice);
+  Alice.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Bob);
+  Bob.SetUser_Name(VARIABLE_NAME);
 
-	ElGamal ExchangeData(Alice, Bob);
+  Alice.PrintData();
 
-	Bob.PrintData();
+  ElGamal ExchangeData(Alice, Bob);
+
+  Bob.PrintData();
 }
-//	Вызов тестового экзмемпляра работы шифра RSA
-void Rsa() 
-{
-	RSA Alice(true), Bob(0);
+//	Р’С‹Р·РѕРІ С‚РµСЃС‚РѕРІРѕРіРѕ СЌРєР·РјРµРјРїР»СЏСЂР° СЂР°Р±РѕС‚С‹ С€РёС„СЂР° RSA
+void Rsa() {
+  RSA Alice(true), Bob(0);
 
-	SAVE_VARIABLE_NAME(Alice);
-	Alice.SetUser_Name(VARIABLE_NAME);
-	SAVE_VARIABLE_NAME(Bob);
-	Bob.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Alice);
+  Alice.SetUser_Name(VARIABLE_NAME);
+  SAVE_VARIABLE_NAME(Bob);
+  Bob.SetUser_Name(VARIABLE_NAME);
 
-	Alice.PrintData();
+  Alice.PrintData();
 
-	RSA ExchangeData(Alice, Bob);
+  RSA ExchangeData(Alice, Bob);
 
-	Bob.PrintData();
+  Bob.PrintData();
 }
 
-int main() 
-{
-	setlocale(LC_ALL, "Rus");
-	
-	srand(time(0));
-	
-	char choice;
-	cout << "Введите первую букву алгоритма для его запуска:\n D: Алгоритм Диффи-Хеллмана;\n S: Шифр Шамира;\n E: Шифр Эль-Гамаля;\n R: Шифр RSA.\n\n: ";
-	cin >> choice;
-	cout << endl;
-	switch (choice)
-	{
+int main() {
+  srand(time(0));
 
-		case '1':
-		{
-			DH();
-			break;
-		}
-		case '2':
-		{
-			SH();
-			break;
-		}
-		case '3':
-		{
-			EL();
-			break;
-		}
-		case '4':
-		{
-			Rsa();
-			break;
-		}
-		case 'E':
-		{
-			EL();
-			break;
-		}
-		case 'e':
-		{
-			EL();
-			break;
-		}
-		case 'D':
-		{
-			DH();
-			break;
-		}
-		case 'd':
-		{
-			DH();
-			break;
-		}
-		case 'R':
-		{
-			Rsa();
-			break;
-		}
-		case 'r':
-		{
-			Rsa();
-			break;
-		}
-		case 'S':
-		{
-			SH();
-			break;
-		}
-		case 's':
-		{
-			SH();
-			break;
-		}
-		default: 
-		{
-			cout << "Вы ввели неправильный символ. До свидания." << endl ;
-			break;
-		}
-		
-	}
-	
+  char choice;
+  cout << "Р’РІРµРґРёС‚Рµ РїРµСЂРІСѓСЋ Р±СѓРєРІСѓ Р°Р»РіРѕСЂРёС‚РјР° РґР»СЏ РµРіРѕ Р·Р°РїСѓСЃРєР°:\n D: РђР»РіРѕСЂРёС‚Рј "
+          "Р”РёС„С„Рё-РҐРµР»Р»РјР°РЅР°;\n S: РЁРёС„СЂ РЁР°РјРёСЂР°;\n E: РЁРёС„СЂ Р­Р»СЊ-Р“Р°РјР°Р»СЏ;\n R: РЁРёС„СЂ "
+          "RSA.\n\n: ";
+  cin >> choice;
+  cout << endl;
+  switch (choice) {
+    case '1': {
+      DH();
+      break;
+    }
+    case '2': {
+      SH();
+      break;
+    }
+    case '3': {
+      EL();
+      break;
+    }
+    case '4': {
+      Rsa();
+      break;
+    }
+    case 'E': {
+      EL();
+      break;
+    }
+    case 'e': {
+      EL();
+      break;
+    }
+    case 'D': {
+      DH();
+      break;
+    }
+    case 'd': {
+      DH();
+      break;
+    }
+    case 'R': {
+      Rsa();
+      break;
+    }
+    case 'r': {
+      Rsa();
+      break;
+    }
+    case 'S': {
+      SH();
+      break;
+    }
+    case 's': {
+      SH();
+      break;
+    }
+    default: {
+      cout << "Р’С‹ РІРІРµР»Рё РЅРµРїСЂР°РІРёР»СЊРЅС‹Р№ СЃРёРјРІРѕР». Р”Рѕ СЃРІРёРґР°РЅРёСЏ." << endl;
+      break;
+    }
+  }
 }

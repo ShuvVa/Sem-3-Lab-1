@@ -1,87 +1,89 @@
 #pragma once
 #include <iostream>
-#include <vector>
-#include <tuple>
-#include <string>
 #include <map>
+#include <string>
+#include <tuple>
+#include <vector>
 
 using namespace std;
 //#define _GEA_tuple
 
-//	Блок для удобства использования в программе
+//	Р‘Р»РѕРє РґР»СЏ СѓРґРѕР±СЃС‚РІР° РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ РїСЂРѕРіСЂР°РјРјРµ
 
-typedef tuple <int, int, int> TP_int;
-typedef vector <int> Vector_1D_int;
-typedef vector <long long> Vector_1D_long_long;
-typedef vector <long long int> Vector_1D_long_long_int;
-typedef vector <pair<long long int, long long int>> Vector_1D_pair_long_long_int;
-typedef vector <Vector_1D_int> Vector_2D_int;
-typedef vector <Vector_1D_long_long> Vector_2D_long_long;
-typedef vector <Vector_1D_long_long_int> Vector_2D_long_long_int;
+typedef tuple<int, int, int> TP_int;
+typedef vector<int> Vector_1D_int;
+typedef vector<long long> Vector_1D_long_long;
+typedef vector<long long int> Vector_1D_long_long_int;
+typedef vector<pair<long long int, long long int>> Vector_1D_pair_long_long_int;
+typedef vector<Vector_1D_int> Vector_2D_int;
+typedef vector<Vector_1D_long_long> Vector_2D_long_long;
+typedef vector<Vector_1D_long_long_int> Vector_2D_long_long_int;
 
-//	Перегрузка операторов вывода для вывода векторов
+//	РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂРѕРІ РІС‹РІРѕРґР° РґР»СЏ РІС‹РІРѕРґР° РІРµРєС‚РѕСЂРѕРІ
 
 ostream& operator<<(ostream& ostr, const Vector_1D_int& Vec_1d);
 ostream& operator<<(ostream& ostr, const Vector_1D_long_long& Vec_1d);
 ostream& operator<<(ostream& ostr, const Vector_2D_int& Vec_2d);
 ostream& operator<<(ostream& ostr, const Vector_2D_long_long& Vec_2d);
-ostream& operator<<(ostream& ostr, const Vector_1D_pair_long_long_int & Vec_pair);
+ostream& operator<<(ostream& ostr,
+                    const Vector_1D_pair_long_long_int& Vec_pair);
 
+//	РљР»Р°СЃСЃ, СЃРѕРґРµСЂР¶Р°С‰РёР№ РІ СЃРµР±Рµ РѕСЃРЅРѕРІРЅС‹Рµ РјРµС‚РѕРґС‹, РёСЃРїРѕР»СЊР·СѓРµРјС‹Рµ РїСЂРё СЂР°Р±РѕС‚Рµ
+//Р°Р»РіРѕСЂРёС‚РјРѕРІ С€РёС„СЂРѕРІР°РЅРёСЏ
+class User {
+ protected:
+  //	РРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+  string User_Name;
+  //	РўРёРї РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (РѕС‚РїСЂР°РІРёС‚РµР»СЊ - true/РїРѕР»СѓС‡Р°С‚РµР»СЊ - false)
+  bool sender;
+  //	РџРµСЂРµРґР°РІР°РµРјРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
+  Vector_1D_long_long_int message;
 
+ public:
+  //	РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё РёРјРµРЅРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+  void SetUser_Name(string);
+  //	РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё С‚РёРїР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ (РѕС‚РїСЂР°РІРёС‚РµР»СЊ/РїСЂРёРЅРёРјР°СЋС‰РёР№)
+  void SetSender(bool _sender);
 
-//	Класс, содержащий в себе основные методы, используемые при работе алгоритмов шифрования
-class User 
-{
-protected: 
-	//	Имя пользователя
-	string User_Name;
-	//	Тип пользователя (отправитель - true/получатель - false)
-	bool sender;
-	//	Передаваемое сообщение
-	Vector_1D_long_long_int message;
+  //	РњРµС‚РѕРґ РґР»СЏ РІРѕР·РІСЂР°С‰РµРЅРёСЏ СЂР°Р·РјРµСЂР° СЃРѕРѕР±С‰РµРЅРёСЏ
+  int Get_Message_Size();
+  //	РњРµС‚РѕРґ РґР»СЏ РІРѕР·РІСЂР°С‰РµРЅРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ
+  Vector_1D_long_long_int Get_Message();
+  //	РњРµС‚РѕРґ РґР»СЏ РІС‹Р±РѕСЂР° С‚РёРїР° СЃРѕРѕР±С‰РµРЅРёСЏ Рё РµРіРѕ РІРІРѕРґР°
+  void InsertMessage();
+  //	РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё С‡РёСЃР»РѕРІРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+  void SetMessage(unsigned long long int _message);
+  //	РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё СЃС‚СЂРѕРєРѕРІРѕРіРѕ СЃРѕРѕР±С‰РµРЅРёСЏ
+  void SetMessage(string _message);
+  //	РњРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ РґСЂСѓРіРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+  void SetMessage(Vector_1D_long_long_int _message);
+  //	РњРµС‚РѕРґ РґР»СЏ РєРѕРЅРІРµСЂС‚Р°С†РёРё СЃРѕРѕР±С‰РµРЅРёСЏ РІ СЃС‚СЂРѕРєСѓ
+  string Message_ToString();
 
-public:
+  //	РџСЂРѕРІРµСЂРєР° РЅР° С‚Рѕ СЏРІР»СЏРµС‚СЃСЏ Р»Рё РїРѕР»СѓС‡РµРЅРЅРѕРµ С„СѓРЅРєС†РёРµР№ С‡РёСЃР»Рѕ РїСЂРѕСЃС‚С‹Рј: РµСЃР»Рё x -
+  //РїСЂРѕСЃС‚РѕРµ, С„СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ TRUE, РµСЃР»Рё РЅРµС‚ - FALSE
+  bool Prime(const int);
+  //	Р“РµРЅРµСЂР°С†РёСЏ РїСЂРѕСЃС‚РѕРіРѕ С‡РёСЃР»Р° РІ РїСЂРµРґРµР»Р°С… РѕС‚ begining РґРѕ end
+  int Random(int begining, int ending);
+  //	РџСЃРµРІРґРѕРіРµРЅРµСЂР°С‚РѕСЂ РїСЂРѕСЃС‚С‹С… С‡РёСЃРµР»
+  int PrimeRandom(int begining, int ending);
 
-	//	Метод для установки имени пользователя
-	void SetUser_Name(string);
-	//	Метод для установки типа пользователя (отправитель/принимающий)
-	void SetSender(bool _sender);
-	
-	//	Метод для возвращения размера сообщения
-	int Get_Message_Size();
-	//	Метод для возвращения сообщения
-	Vector_1D_long_long_int Get_Message();
-	//	Метод для выбора типа сообщения и его ввода
-	void InsertMessage();
-	//	Метод для установки числового сообщения
-	void SetMessage(unsigned long long int _message);
-	//	Метод для установки строкового сообщения
-	void SetMessage(string _message);
-	//	Метод для установки сообщения от другого пользователя
-	void SetMessage(Vector_1D_long_long_int _message);
-	//	Метод для конвертации сообщения в строку
-	string Message_ToString();
+  //	Р“РµРЅРµСЂР°С‚РѕСЂ g Рё p
+  void Generate_g_p(int& g, int& p);
 
-	//	Проверка на то является ли полученное функцией число простым: если x - простое, функция возвращает значение TRUE, если нет - FALSE
-	bool Prime(const int);
-	//	Генерация простого числа в пределах от begining до end
-	int Random(int begining, int ending);
-	//	Псевдогенератор простых чисел
-	int PrimeRandom(int begining, int ending);
-
-	//	Генератор g и p
-	void Generate_g_p(int& g, int& p);
-	
-	//	Наибольший общий делитель/The greatest common divisor (GCD)
-	long long GCD(long long firstNumber, long long secondNumber);
-	//	Возведение в степень по модулю/Modular exponentiation
-	long long Mod_Exp(long long base, long long power, long long divisor);
+  //	РќР°РёР±РѕР»СЊС€РёР№ РѕР±С‰РёР№ РґРµР»РёС‚РµР»СЊ/The greatest common divisor (GCD)
+  long long GCD(long long firstNumber, long long secondNumber);
+  //	Р’РѕР·РІРµРґРµРЅРёРµ РІ СЃС‚РµРїРµРЅСЊ РїРѕ РјРѕРґСѓР»СЋ/Modular exponentiation
+  long long Mod_Exp(long long base, long long power, long long divisor);
 #ifdef _GEA_tuple
-	//	Обобщенный алгоритм евклида/generalized euclid algorithm (GEA) (с использованием tuple)
-	TP_int GEA_tuple(int firstNumber, int secondNumber);
-#endif // _GEA_tuple
-	//	Обобщенный алгоритм евклида / generalized euclid algorithm (GEA) (с использованием vector)
-	Vector_2D_int GEA(int firstNumber, int secondNumber);
-	// Инверсия числа по cd mod m = 1 или d = c^-1 mod m. firstNumbr - c, secondNumber - m
-	long long Mod_Inverse(long long firstNumber, long long secondNumber);
+  //	РћР±РѕР±С‰РµРЅРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј РµРІРєР»РёРґР°/generalized euclid algorithm (GEA) (СЃ
+  //РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј tuple)
+  TP_int GEA_tuple(int firstNumber, int secondNumber);
+#endif  // _GEA_tuple
+        //	РћР±РѕР±С‰РµРЅРЅС‹Р№ Р°Р»РіРѕСЂРёС‚Рј РµРІРєР»РёРґР° / generalized euclid algorithm (GEA)
+        //(СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј vector)
+  Vector_2D_int GEA(int firstNumber, int secondNumber);
+  // РРЅРІРµСЂСЃРёСЏ С‡РёСЃР»Р° РїРѕ cd mod m = 1 РёР»Рё d = c^-1 mod m. firstNumbr - c,
+  // secondNumber - m
+  long long Mod_Inverse(long long firstNumber, long long secondNumber);
 };
